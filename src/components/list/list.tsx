@@ -9,23 +9,26 @@ import { addCart } from "../../reducer/cart";
 const List =()=>{
     const [prod, setProd] =useState([])
     const dispatch = useDispatch()
+    const [itemOffset, setItemOffset] = useState(0);
+    const[prodCart, setProdCart]=useState<any[]>([])
+    const[setAddP, addP]=useState<any>(false)
+    const cart = useSelector((state:any) => state.cart);
+    const[listItem, setListItem] = useState([])
+
 
     useEffect(() => {
-        ItensService.FindItens()
-          .then((result:any) => {
-            result.length > 0 && setProd(result)
-          });
-      }, []);
+      ItensService.FindItens()
+        .then((result:any) => {
+          result.length > 0 && setProd(result)
+        });
+    }, []);
 
+    const endOffset = itemOffset + 6;
+    const currentItems = prod.slice(itemOffset, endOffset);
+    
+    const pageCount = Math.ceil(prod.length / 6);
+  
 
-
-      const [itemOffset, setItemOffset] = useState(0);
-      const[prodCart, setProdCart]=useState<any[]>([])
-      const[setAddP, addP]=useState<any>(false)
-
-      const endOffset = itemOffset + 6;
-      const currentItems = prod.slice(itemOffset, endOffset);
-      const pageCount = Math.ceil(prod.length / 6);
     
       const handlePageClick = (event:any) => {
         const newOffset = (event.selected * 6) % prod.length;
@@ -42,18 +45,36 @@ const List =()=>{
       }
 
       const addToCart =(prod:any)=>{
-        setAddP(true)
         prodCart.push(prod)
         var values=
         JSON.parse(JSON.stringify(prodCart))
 
+
         dispatch(addCart(values))
       
   }
-      
+
+  useEffect(()=>{
+    var filteredItems:any=[]
+if(cart){
+  
+  cart[0]?.map((val:any)=>{
+    console.log("val: " + val.id)
+     filteredItems = currentItems?.filter((item: { id: number; }) => item.id !== val.id)
+    return filteredItems;
+
+  })
+
+}
+    filteredItems && setListItem(filteredItems)
+  },[cart])
+
+  
+
     return(
         <S.DivList>
-            {currentItems?.map((item:any)=>{
+            {listItem.length<1?
+            currentItems?.map((item:any)=>{
                 return(
                     <S.List key={item.id}>
                         <div className="produto">
@@ -65,7 +86,22 @@ const List =()=>{
                             <button onClick={()=>addToCart(item)}>Comprar</button>
                     </S.List>
                 )
-            })}
+            })
+          :
+          listItem?.map((item:any)=>{
+            return(
+                <S.List key={item.id}>
+                    <div className="produto">
+
+                    <img src={item.api_featured_image} alt={""}/>
+                    <p>{item.name}</p>
+                    <p>{'R$'+formatNumber(item.price)}</p>
+                    </div>
+                        <button onClick={()=>addToCart(item)}>Comprar</button>
+                </S.List>
+            )
+        })
+          }
              <ReactPaginate
         breakLabel="..."
         breakClassName="break-me"
