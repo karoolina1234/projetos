@@ -28,6 +28,11 @@ export const DivList=styled.div`
         display:none;
     }
 }
+.load{
+    svg{
+        width:3rem;
+    }
+}
 `;
 export const List=styled.div`
        max-width: 14rem;

@@ -14,13 +14,15 @@ export const slice = createSlice({
       removeOne(state,action):any{
         return [action.payload,0]
       },
-     
+      open(state):any {
+        return true;
+      },
    
     }
     
   })
   
-  export const { addCart ,removeCartAll,removeOne} = slice.actions
+  export const { addCart ,removeCartAll,removeOne,open} = slice.actions
   
 
   

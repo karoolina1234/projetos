@@ -4,17 +4,16 @@ import * as S from './listStyle';
 import ReactPaginate from 'react-paginate';
 import { useSelector } from 'react-redux';
 import { useDispatch } from "react-redux";
-import { addCart } from "../../reducer/cart";
+import { addCart} from "../../reducer/cart";
+import Loader from "../../assets/icons/loader.icon";
+import { exibeAlert } from "../../reducer/alert.";
 
 const List =()=>{
     const [prod, setProd] =useState([])
     const dispatch = useDispatch()
     const [itemOffset, setItemOffset] = useState(0);
     const[prodCart, setProdCart]=useState<any[]>([])
-    const[setAddP, addP]=useState<any>(false)
     const cart = useSelector((state:any) => state.cart);
-    const[listItem, setListItem] = useState([])
-
 
     useEffect(() => {
       ItensService.FindItens()
@@ -48,32 +47,14 @@ const List =()=>{
         prodCart.push(prod)
         var values=
         JSON.parse(JSON.stringify(prodCart))
-
-
+        dispatch(exibeAlert())
         dispatch(addCart(values))
       
   }
-
-  useEffect(()=>{
-    var filteredItems:any=[]
-if(cart){
-  
-  cart[0]?.map((val:any)=>{
-    console.log("val: " + val.id)
-     filteredItems = currentItems?.filter((item: { id: number; }) => item.id !== val.id)
-    return filteredItems;
-
-  })
-
-}
-    filteredItems && setListItem(filteredItems)
-  },[cart])
-
-  
-
     return(
-        <S.DivList>
-            {listItem.length<1?
+      <>
+      <S.DivList>
+            {currentItems.length>0 ?
             currentItems?.map((item:any)=>{
                 return(
                     <S.List key={item.id}>
@@ -87,20 +68,11 @@ if(cart){
                     </S.List>
                 )
             })
-          :
-          listItem?.map((item:any)=>{
-            return(
-                <S.List key={item.id}>
-                    <div className="produto">
-
-                    <img src={item.api_featured_image} alt={""}/>
-                    <p>{item.name}</p>
-                    <p>{'R$'+formatNumber(item.price)}</p>
-                    </div>
-                        <button onClick={()=>addToCart(item)}>Comprar</button>
-                </S.List>
-            )
-        })
+            :
+            <div className="load">
+              <Loader />
+            </div>
+          
           }
              <ReactPaginate
         breakLabel="..."
@@ -113,6 +85,8 @@ if(cart){
         className="listaPAG"
        />
         </S.DivList>
+      </>
+       
     )
 }
 
