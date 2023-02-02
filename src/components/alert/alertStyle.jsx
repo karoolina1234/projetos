@@ -17,6 +17,7 @@ export const Data=styled.div`
     position: relative;
     background:#FFF;
     border-radius: 0.5rem;
+    min-height: 5rem;
 
 
     svg{
@@ -31,8 +32,10 @@ export const Data=styled.div`
     font-weight: bold;
     color: #b44990;
     margin:0rem;
+    margin-bottom: 0.5rem;
+
     }
-    button{
+    .addCarts{
         border: none;
     background: black;
     color: #FFf;
@@ -40,5 +43,8 @@ export const Data=styled.div`
     margin-bottom: 1rem;
     padding: 0.3rem;
     cursor: pointer;
+    text-decoration: none;
+    padding: 0.2em 0.5em;
+    border-radius: 2rem;
     }
 `

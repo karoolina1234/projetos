@@ -13,7 +13,7 @@ export const DivHeader = styled.div`
     background: black;
     margin-top: -1rem;
     min-height: 4rem;
-    color: #b44990;
+    color: #b44990!important;
     .item{
         padding-top: 1.5rem;
         width:90%;
@@ -40,6 +40,9 @@ export const DivHeader = styled.div`
             }
     }
 
-
+.linkCart{
+    color: #b44990!important;
+    text-decoration: none;
+}
 }
 `;
