@@ -6,6 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { removeCartAll, removeOne } from "../../reducer/cart";
 import { Link } from "react-router-dom";
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
+import Footer from "../../components/footer/footer";
 const CartPage = ()=>{
     const item = useSelector((state:any) => state.item);
     const dispatch = useDispatch()
@@ -60,7 +61,7 @@ const CartPage = ()=>{
                     <Link to='/'>Acesse a loja para adicionar itens</Link>
                 </div>}
            
-           
+           <Footer/>
         </S.Content>
     )
 }

@@ -14,7 +14,7 @@ const Alert=()=>{
         <S.DivComponent>
             <S.Content>
             <S.Data>
-                <a onClick={()=>dispatch(removeAlert())}><HighlightOffIcon/></a>
+            <a onClick={()=>dispatch(removeAlert())}><HighlightOffIcon/></a>
             <p>Item adicionado com sucesso!</p>
             <Link onClick={()=>dispatch(removeAlert())} className="addCarts" to='/cart'>Acessar carrinho</Link>
 
